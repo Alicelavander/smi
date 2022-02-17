@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "208019141585",
+    "project_id": "smi-technovation",
+    "storage_bucket": "smi-technovation.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:208019141585:android:c0b6faec7a45d9cd8a26f0",
+        "android_client_info": {
+          "package_name": "com.smi_technovation.smi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "208019141585-mjff9vbp52p9asponu1g4791tmpra3lt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBHcU4v7ZHIvUhfbMagjK1uHAHtFufMvjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "208019141585-mjff9vbp52p9asponu1g4791tmpra3lt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
