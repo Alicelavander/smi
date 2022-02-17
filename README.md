@@ -2,6 +2,10 @@
 
 Technovation girls 2022
 
+## Road map
+- [x] Implement login & sign up system
+- [x]   'Sign in with google'!
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
