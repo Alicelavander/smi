@@ -1,6 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_signin_button/button_list.dart';
+import 'package:flutter_signin_button/button_view.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'AuthenticationError.dart';
 import 'signup.dart';
 import '../home.dart';
@@ -21,6 +25,13 @@ class _LoginPage extends State<Login> {
   final FirebaseAuth auth = FirebaseAuth.instance;
   // エラーメッセージを日本語化するためのクラス
   final authError = AuthenticationError();
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -103,6 +114,46 @@ class _LoginPage extends State<Login> {
                   primary: Colors.blue, //ボタンの背景色
                 ),
               ),
+            ),
+
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Text("又は"),
+            ),
+
+            //Googleでログインのボタン
+            SignInButton(
+              Buttons.Google,
+              onPressed: () async {
+                try {
+                  GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+                  GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+                  AuthCredential credential = GoogleAuthProvider.credential(
+                    accessToken: googleAuth.accessToken,
+                    idToken: googleAuth.idToken,
+                  );
+                  try {
+                    UserCredential result = await auth.signInWithCredential(credential);
+                    User user = result.user!;
+
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Home(userId: user.uid,),
+                        )
+                    );
+
+                  } catch (e) {
+                    if (kDebugMode) {
+                      print(e);
+                    }
+                  }
+                } catch (e) {
+                  if (kDebugMode) {
+                    print(e.toString());
+                  }
+                }
+              },
             ),
           ],
         ),

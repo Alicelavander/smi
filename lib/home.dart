@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-// [Themelist] インスタンスにおける処理。
 class Home extends StatelessWidget {
   final String userId;
   const Home({Key? key, required this.userId}) : super(key: key);

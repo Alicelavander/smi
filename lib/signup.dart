@@ -31,7 +31,6 @@ class _SignupState extends State<Signup> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-
             const Padding(
                 padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 30.0),
                 child:Text('新規アカウントの作成',
