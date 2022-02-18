@@ -1,6 +1,11 @@
 # smi
-
 Technovation girls 2022
+
+!ATTENTION!
+The project does have an iOS folder, but it currently doesn't work on iOS
+
+It only works with Android
+
 
 ## Getting Started
 
