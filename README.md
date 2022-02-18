@@ -1,10 +1,10 @@
 # smi
-
 Technovation girls 2022
 
-## Road map
-- [x] Implement login & sign up system
-- [x]   'Sign in with google'!
+!ATTENTION!
+The project does have an iOS folder, but it currently doesn't work on iOS
+It only works with Android
+
 
 ## Getting Started
 
