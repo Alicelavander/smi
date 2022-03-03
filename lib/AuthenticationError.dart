@@ -1,4 +1,5 @@
 //Firebase Authentication利用時の日本語エラーメッセージ
+//CURRENTLY NOT WORKING AT ALL
 class AuthenticationError {
 
   // ログイン時の日本語エラーメッセージ
