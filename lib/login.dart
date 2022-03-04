@@ -7,7 +7,7 @@ import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'AuthenticationError.dart';
 import 'signup.dart';
-import '../home.dart';
+import 'home/home.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);

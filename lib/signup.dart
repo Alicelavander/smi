@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'AuthenticationError.dart';
-import '../home.dart';
+import 'home/home.dart';
 
 // アカウント登録ページ
 class Signup extends StatefulWidget {
