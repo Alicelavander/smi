@@ -37,7 +37,7 @@ class _CommunityListPage extends State<CommunityList> {
               children: documentList.map((DocumentSnapshot document) {
                 return Card(
                   child: ListTile(
-                    title: Text(document.id),
+                    title: Text(document['name']),
                     onTap: () {},
                   ),
                   shape: RoundedRectangleBorder(
