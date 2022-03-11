@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'AuthenticationError.dart';
 import 'home/home.dart';
+import 'login.dart';
 
 // アカウント登録ページ
 class Signup extends StatefulWidget {
@@ -33,7 +34,7 @@ class _SignupState extends State<Signup> {
           children: <Widget>[
             const Padding(
                 padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 30.0),
-                child:Text('新規アカウントの作成',
+                child:Text("Let's start your experience.",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
             ),
 
@@ -41,7 +42,7 @@ class _SignupState extends State<Signup> {
             Padding(
                 padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
                 child:TextFormField(
-                  decoration: const InputDecoration(labelText: "メールアドレス"),
+                  decoration: const InputDecoration(labelText: "Email address"),
                   onChanged: (String value) {
                     newEmail = value;
                   },
@@ -53,7 +54,7 @@ class _SignupState extends State<Signup> {
               padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
               child:TextFormField(
                   maxLengthEnforcement: MaxLengthEnforcement.none, decoration: const InputDecoration(
-                      labelText: "パスワード（8～20文字）"
+                      labelText: "Password (8～20 characters)"
                   ),
                   obscureText: true,  // パスワードが見えないようRにする
                   maxLength: 20,  // 入力可能な文字数の制限を超える場合の挙動の制御
@@ -106,11 +107,11 @@ class _SignupState extends State<Signup> {
                     }
                   }else{
                     setState(() {
-                      infoText = 'パスワードは8文字以上です。';
+                      infoText = 'The password must be longer than 8 characters.';
                     });
                   }
                 },
-                child: const Text('登録',
+                child: const Text('Sign up for free',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white
@@ -124,6 +125,39 @@ class _SignupState extends State<Signup> {
           ],
         ),
       ),
+
+      bottomNavigationBar: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            const Text("Already have an account? Then:"),
+            Padding(
+              padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
+              child:ButtonTheme(
+                minWidth: 350.0,
+                // height: 100.0,
+                child: ElevatedButton(
+                  // ボタンクリック後にログイン用の画面の遷移する。
+                  onPressed: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                        fullscreenDialog: true,
+                        builder: (BuildContext context) => const Login(),
+                      ),
+                    );
+                  },
+                  child: const Text('Login',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue[50], //ボタンの背景色
+                  ),
+                ),
+              ),
+            ),
+          ]),
     );
   }
 }

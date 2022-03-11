@@ -40,12 +40,18 @@ class _LoginPage extends State<Login> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            const Padding(
+                padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
+                child:Text("Welcome to smi!",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+            ),
+
             // メールアドレスの入力フォーム
             Padding(
                 padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
                 child:TextFormField(
                   decoration: const InputDecoration(
-                      labelText: "email address"
+                      labelText: "Email address"
                   ),
                   onChanged: (String value) {
                     loginEmail = value;
@@ -58,7 +64,7 @@ class _LoginPage extends State<Login> {
               padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
               child:TextFormField(
                 maxLengthEnforcement: MaxLengthEnforcement.none, decoration: const InputDecoration(
-                    labelText: "パスワード"
+                    labelText: "Password"
                 ),
                 obscureText: true,  // パスワードが見えないようRにする
                 maxLength: 20,  // 入力可能な文字数の制限を超える場合の挙動の制御
@@ -75,6 +81,7 @@ class _LoginPage extends State<Login> {
                 style: const TextStyle(color: Colors.red),),
             ),
 
+            //ログインボタン
             ButtonTheme(
               minWidth: 350.0,
               // height: 100.0,
@@ -104,7 +111,7 @@ class _LoginPage extends State<Login> {
                     });
                   }
                 },
-                child: const Text('ログイン',
+                child: const Text('Login',
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.white
@@ -118,7 +125,7 @@ class _LoginPage extends State<Login> {
 
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
-              child: Text("又は"),
+              child: Text("or"),
             ),
 
             //Googleでログインのボタン
@@ -155,6 +162,10 @@ class _LoginPage extends State<Login> {
                 }
               },
             ),
+
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+            ),
           ],
         ),
       ),
@@ -163,33 +174,34 @@ class _LoginPage extends State<Login> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
+            const Text("Not signed up yet? Then:"),
+            Padding(
+            padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
             child:ButtonTheme(
               minWidth: 350.0,
               // height: 100.0,
               child: ElevatedButton(
-                  // ボタンクリック後にアカウント作成用の画面の遷移する。
-                  onPressed: (){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        fullscreenDialog: true,
-                        builder: (BuildContext context) => const Signup(),
-                      ),
-                    );
-                  },
-                  child: const Text('アカウントを作成する',
-                    style: TextStyle(
+                // ボタンクリック後に新規作成用の画面の遷移する。
+                onPressed: (){
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (BuildContext context) => const Signup(),
+                    ),
+                  );
+                },
+                child: const Text('Create a new account',
+                  style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.blue
-                    ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue[50], //ボタンの背景色
-                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.blue[50], //ボタンの背景色
                 ),
               ),
             ),
+          ),
         ]),
     );
   }

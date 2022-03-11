@@ -44,6 +44,7 @@ class _CommunityListPage extends State<CommunityList> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   elevation: 10,
+                  margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
                 );
               }).toList(),
             ),

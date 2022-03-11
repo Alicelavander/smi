@@ -41,7 +41,7 @@ class _JoinCommunityPage extends State<JoinCommunity> {
               padding:  const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
               child:TextFormField(
                 maxLengthEnforcement: MaxLengthEnforcement.none, decoration: const InputDecoration(
-                  labelText: "招待コード"
+                  labelText: "Invitation code"
               ),
                 maxLength: 20,  // 入力可能な文字数の制限を超える場合の挙動の制御
                 onChanged: (String value) {
@@ -55,7 +55,7 @@ class _JoinCommunityPage extends State<JoinCommunity> {
               // height: 100.0,
               child: ElevatedButton(
                 onPressed: () {},
-                child: const Text('参加',
+                child: const Text('Join',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.white
