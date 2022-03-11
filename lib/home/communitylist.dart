@@ -27,29 +27,40 @@ class _CommunityListPage extends State<CommunityList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            //Communityが0のときのみ↓の文を表示させる
-            if (documentList.isEmpty) const Text("Start by joining or adding a community!", style: TextStyle(fontSize: 16)),
-
-            Column(
-              children: documentList.map((DocumentSnapshot document) {
-                return Card(
-                  child: ListTile(
-                    title: Text(document['name']),
-                    onTap: () {},
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  elevation: 10,
-                  margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+      body: Column(
+        children: [
+          Expanded(
+            child: FutureBuilder<QuerySnapshot>(
+              future: FirebaseFirestore.instance.collection('communities').get(),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  final List<DocumentSnapshot> documents = snapshot.data!.docs;
+                  return ListView(
+                    children: documentList.map((document) {
+                      return Card(
+                        child: ListTile(
+                          title: Text(document['name']),
+                          onTap: () {},
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        elevation: 10,
+                        margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                      );
+                    }).toList(),
+                  );
+                } else {
+                  const Text("Start by joining or adding a community!", style: TextStyle(fontSize: 16));
+                }
+                // データが読込中の場合
+                return const Center(
+                  child: Text('Loading...'),
                 );
-              }).toList(),
+              },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: SpeedDial(
         icon: Icons.add,

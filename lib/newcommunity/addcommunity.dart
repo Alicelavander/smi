@@ -57,7 +57,7 @@ class _AddCommunityPage extends State<AddCommunity> {
                   onPressed: () async {
                     // サブコレクション内にドキュメント作成
                     await db.collection('communities').add({
-                      name: communityName
+                      'name': communityName
                     });
                   },
                 child: const Text('Create',
