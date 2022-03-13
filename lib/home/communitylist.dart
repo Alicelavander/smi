@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:smi/newcommunity/joincommunity.dart';
 import '../newcommunity/addcommunity.dart';
+import '../community/home.dart';
 
 class CommunityList extends StatefulWidget {
   const CommunityList({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class CommunityList extends StatefulWidget {
 }
 
 class _CommunityListPage extends State<CommunityList> {
+  final db = FirebaseFirestore.instance;
   List<DocumentSnapshot> documentList = [];
 
   @override
@@ -20,7 +22,7 @@ class _CommunityListPage extends State<CommunityList> {
   }
 
   Future<void> getListData() async {
-    final snapshot = await FirebaseFirestore.instance.collection('communities').get();
+    final snapshot = await db.collection('communities').get();
     documentList = snapshot.docs;
   }
 
@@ -31,16 +33,22 @@ class _CommunityListPage extends State<CommunityList> {
         children: [
           Expanded(
             child: FutureBuilder<QuerySnapshot>(
-              future: FirebaseFirestore.instance.collection('communities').get(),
+              future: db.collection('communities').get(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  final List<DocumentSnapshot> documents = snapshot.data!.docs;
                   return ListView(
                     children: documentList.map((document) {
                       return Card(
                         child: ListTile(
                           title: Text(document['name']),
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => CommunityHome(communityId: document.id, communityName: document['name']),
+                                )
+                            );
+                          },
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
