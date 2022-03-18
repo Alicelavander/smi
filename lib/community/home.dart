@@ -36,7 +36,37 @@ class _CommunityHomePage extends State<CommunityHome> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            //list identitites
+            Expanded(
+              child: FutureBuilder<QuerySnapshot>(
+                future: db.collection('communities').doc(widget.communityId).collection('identities').get(),
+                builder: (context, snapshot) {
+                  print(snapshot.hasData);
+                  if (snapshot.hasData) {
+                    return ListView(
+                      children: identityList.map((document) {
+                        return Card(
+                          child: ListTile(
+                            title: Text(document['name']),
+                            onTap: () {},
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 10,
+                          margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    const Text("Be the first to add an identity!", style: TextStyle(fontSize: 16));
+                  }
+                  // データが読込中の場合
+                  return const Center(
+                    child: Text('Loading...'),
+                  );
+                },
+              ),
+            ),
           ],
         ),
       ),
