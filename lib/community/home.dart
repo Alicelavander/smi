@@ -17,7 +17,6 @@ class _CommunityHomePage extends State<CommunityHome> {
   @override
   void initState() {
     super.initState();
-    getListData();
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getListData() async {
@@ -40,15 +39,11 @@ class _CommunityHomePage extends State<CommunityHome> {
               child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 future: getListData(),
                 builder: (context, snapshot) {
-                  print("hasData:${snapshot.hasData}");
-                  print("data:${snapshot.data}");
-                  print("isEmpty:${snapshot.data?.docs.isEmpty}");
-                  print("isNotEmpty:${snapshot.data!.docs.isNotEmpty}");
                   if (snapshot.hasData) {
                     if (snapshot.data!.docs.isNotEmpty) {
                       return SingleChildScrollView(
                         child: Column(
-                            children: snapshot.data?.docs.map((document) =>
+                            children: snapshot.data!.docs.map((document) =>
                                 Card(
                                   child: ListTile(
                                     title: Text(document['name']),
@@ -60,11 +55,12 @@ class _CommunityHomePage extends State<CommunityHome> {
                                   elevation: 10,
                                   margin: const EdgeInsets.fromLTRB(
                                       10.0, 5.0, 10.0, 5.0),
-                                )).toList() ?? [Text('no items')]),
+                                )).toList()),
                       );
                     } else {
-                      return const Text("Be the first to add an identity!",
-                          style: TextStyle(fontSize: 16));
+                      return const Center(
+                        child: Text("Be the first to add an identity!"),
+                      );
                     }
                   }
                   // データが読込中の場合
