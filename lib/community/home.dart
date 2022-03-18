@@ -12,7 +12,7 @@ class CommunityHome extends StatefulWidget {
 
 class _CommunityHomePage extends State<CommunityHome> {
   final db = FirebaseFirestore.instance;
-  List<DocumentSnapshot> identityList = [];
+  List<DocumentSnapshot>? identityList;
 
   @override
   void initState() {
@@ -20,9 +20,9 @@ class _CommunityHomePage extends State<CommunityHome> {
     getListData();
   }
 
-  Future<void> getListData() async {
+  Future<QuerySnapshot<Map<String, dynamic>>> getListData() async {
     final snapshot = await db.collection('communities').doc(widget.communityId).collection('identities').get();
-    identityList = snapshot.docs;
+    return snapshot;
   }
 
   @override
@@ -37,28 +37,35 @@ class _CommunityHomePage extends State<CommunityHome> {
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Expanded(
-              child: FutureBuilder<QuerySnapshot>(
-                future: db.collection('communities').doc(widget.communityId).collection('identities').get(),
+              child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                future: getListData(),
                 builder: (context, snapshot) {
-                  print(snapshot.hasData);
+                  print("hasData:${snapshot.hasData}");
+                  print("data:${snapshot.data}");
+                  print("isEmpty:${snapshot.data?.docs.isEmpty}");
+                  print("isNotEmpty:${snapshot.data!.docs.isNotEmpty}");
                   if (snapshot.hasData) {
-                    return ListView(
-                      children: identityList.map((document) {
-                        return Card(
-                          child: ListTile(
-                            title: Text(document['name']),
-                            onTap: () {},
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 10,
-                          margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                        );
-                      }).toList(),
-                    );
-                  } else {
-                    const Text("Be the first to add an identity!", style: TextStyle(fontSize: 16));
+                    if (snapshot.data!.docs.isNotEmpty) {
+                      return SingleChildScrollView(
+                        child: Column(
+                            children: snapshot.data?.docs.map((document) =>
+                                Card(
+                                  child: ListTile(
+                                    title: Text(document['name']),
+                                    onTap: () {},
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  elevation: 10,
+                                  margin: const EdgeInsets.fromLTRB(
+                                      10.0, 5.0, 10.0, 5.0),
+                                )).toList() ?? [Text('no items')]),
+                      );
+                    } else {
+                      return const Text("Be the first to add an identity!",
+                          style: TextStyle(fontSize: 16));
+                    }
                   }
                   // データが読込中の場合
                   return const Center(
