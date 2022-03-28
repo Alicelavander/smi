@@ -54,7 +54,9 @@ class _JoinCommunityPage extends State<JoinCommunity> {
               minWidth: 350.0,
               // height: 100.0,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  ///communitiesのinvitation codeのむにゃむにゃ
+                },
                 child: const Text('Join',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
