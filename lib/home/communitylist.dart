@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:smi/newcommunity/joincommunity.dart';
 import '../newcommunity/addcommunity.dart';
-import '../community/home.dart';
+import '../community/communityhome.dart';
 
 class CommunityList extends StatefulWidget {
   const CommunityList({Key? key}) : super(key: key);
@@ -45,7 +45,7 @@ class _CommunityListPage extends State<CommunityList> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CommunityHome(communityId: document.id, communityName: document['name']),
+                                  builder: (context) => CommunityHome(communityId: document.id),
                                 )
                             );
                           },

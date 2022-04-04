@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smi/community/home.dart';
+import 'package:smi/community/communityhome.dart';
 import '../login.dart';
+import 'dart:math';
 
 class AddCommunity extends StatefulWidget {
   const AddCommunity({Key? key}) : super(key: key);
@@ -14,6 +15,11 @@ class AddCommunity extends StatefulWidget {
 class _AddCommunityPage extends State<AddCommunity> {
   FirebaseFirestore db = FirebaseFirestore.instance;
   String communityName = "";
+  final String _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+
+  String getRandomString(int length) => String.fromCharCodes(Iterable.generate(
+      length, (_) => _chars.codeUnitAt(Random().nextInt(_chars.length)))
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +64,13 @@ class _AddCommunityPage extends State<AddCommunity> {
                   onPressed: () async {
                     // サブコレクション内にドキュメント作成
                     await db.collection('communities').add({
-                      'name': communityName
+                      'name': communityName,
+                      'code': getRandomString(7)
                     }).then((DocumentReference newCommunity) => {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CommunityHome(communityId: newCommunity.id, communityName: communityName),
+                          builder: (context) => CommunityHome(communityId: newCommunity.id),
                         )
                       )
                     });

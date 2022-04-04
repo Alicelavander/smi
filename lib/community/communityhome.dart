@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:smi/home/communitylist.dart';
+import 'package:smi/home/home.dart';
+import 'addidentity.dart';
 
 class CommunityHome extends StatefulWidget {
   final String communityId;
-  final String communityName;
-  const CommunityHome({Key? key, required this.communityId, required this.communityName, userId}) : super(key: key);
+  const CommunityHome({Key? key, required this.communityId}) : super(key: key);
 
   @override
   _CommunityHomePage createState() => _CommunityHomePage();
@@ -24,12 +26,35 @@ class _CommunityHomePage extends State<CommunityHome> {
     return snapshot;
   }
 
+  Future<String> getCommunityName() async {
+    DocumentSnapshot doc = await db.collection('communities').doc(widget.communityId).get();
+    return doc['name'].toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text("${widget.communityName}'s identity board")
+        title: FutureBuilder<String>(
+          future: getCommunityName(),
+          builder: (context, snapshot) {
+            return Text("${snapshot.data}'s identity board");
+          }
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.close),
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Home(pageIndex: 1),
+                  )
+              );
+            },
+          ),
+        ],
       ),
       body: Center(
         child: Column(
@@ -73,6 +98,17 @@ class _CommunityHomePage extends State<CommunityHome> {
           ],
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: (){
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AddIdentity(communityId: widget.communityId),
+              )
+          );
+        },
+      )
     );
   }
 }
