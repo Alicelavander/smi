@@ -21,20 +21,34 @@ class _AddIdentityPage extends State<AddIdentity> {
     Query query = collection.where("name", isEqualTo: identityName);
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
+    bool identityNew;
 
-    collection.add({
-      'name': identityName,
-    }).then((DocumentReference newDocument) => {
+    var result = await query.get();
+    if(result.docs.isEmpty){
+      collection.add({
+        'name': identityName
+      }).then((DocumentReference newDocument) => {
+        if(_postAnonymous){
+          collection.doc(newDocument.id).collection('population').add({
+            'name': 'Anonymous',
+          })
+        } else {
+          collection.doc(newDocument.id).collection('population').add({
+            'name': user?.displayName,
+          })
+        }
+      });
+    } else {
       if(_postAnonymous){
-        collection.doc(newDocument.id).collection('population').add({
-          'name': 'Anonymous',
-        })
+        collection.doc(result.docs.single.id).collection('population').add({
+          'name': 'Anonymous'
+        });
       } else {
-        collection.doc(newDocument.id).collection('population').add({
-          'name': user?.displayName,
-        })
+        collection.doc(result.docs.single.id).collection('population').add({
+          'name': user?.displayName
+        });
       }
-    });
+    }
 
     Navigator.push(
       context,
@@ -42,7 +56,6 @@ class _AddIdentityPage extends State<AddIdentity> {
         builder: (context) => CommunityHome(communityId: widget.communityId),
       )
     );
-
   }
 
   @override
