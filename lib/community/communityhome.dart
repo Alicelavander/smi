@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:smi/home/communitylist.dart';
 import 'package:smi/home/home.dart';
 import 'addidentity.dart';
 
@@ -71,7 +70,7 @@ class _CommunityHomePage extends State<CommunityHome> {
                             children: snapshot.data!.docs.map((document) =>
                                 Card(
                                   child: ListTile(
-                                    title: Text(document['name']),
+                                    title: Text(document.id),
                                     onTap: () {},
                                   ),
                                   shape: RoundedRectangleBorder(

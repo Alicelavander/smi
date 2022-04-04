@@ -74,7 +74,6 @@ class _LoginPage extends State<Login> {
               ),
             ),
 
-            // ログイン失敗時のエラーメッセージ
             Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 5.0),
               child:Text(infoText,
@@ -89,20 +88,15 @@ class _LoginPage extends State<Login> {
                 onPressed: () async {
                   try {
                     // メール/パスワードでユーザー登録
-                    UserCredential result = await auth.signInWithEmailAndPassword(
+                    await auth.signInWithEmailAndPassword(
                       email: loginEmail,
                       password: loginPassword,
-                    );
-
-                    // ログイン成功
-                    // ログインユーザーのIDを取得
-                    User user = result.user!;
-                    Navigator.push(
+                    ).then((value) => Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const Home(pageIndex: 0),
                         )
-                    );
+                    ));
 
                   } catch (e) {
                     // ログインに失敗した場合
@@ -140,15 +134,12 @@ class _LoginPage extends State<Login> {
                     idToken: googleAuth.idToken,
                   );
                   try {
-                    UserCredential result = await auth.signInWithCredential(credential);
-                    User user = result.user!;
-
-                    Navigator.push(
+                    await auth.signInWithCredential(credential).then((value) => Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const Home(pageIndex: 0),
                         )
-                    );
+                    ));
 
                   } catch (e) {
                     if (kDebugMode) {

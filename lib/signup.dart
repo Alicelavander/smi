@@ -84,21 +84,15 @@ class _SignupState extends State<Signup> {
                   if (pswdOK){
                     try {
                       // メール/パスワードでユーザー登録
-                      UserCredential result = await auth.createUserWithEmailAndPassword(
+                      await auth.createUserWithEmailAndPassword(
                         email: newEmail,
                         password: newPassword,
-                      );
-
-                      // 登録成功
-                      // 登録したユーザー情報
-                      User user = result.user!;
-                      Navigator.push(
+                      ).then((value) => Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const Home(pageIndex: 0),
                           )
-                      );
-
+                      ));
                     } catch (e) {
                       // 登録に失敗した場合
                       setState(() {
