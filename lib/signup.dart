@@ -95,7 +95,7 @@ class _SignupState extends State<Signup> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Home(userId: user.uid),
+                            builder: (context) => const Home(pageIndex: 0),
                           )
                       );
 

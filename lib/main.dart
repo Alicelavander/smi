@@ -28,7 +28,7 @@ class _CheckLogin extends StatelessWidget {
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
     if(user?.uid != null){
-      return Home(userId: user!.uid,);
+      return const Home(pageIndex: 0);
     } else {
       return const Login();
     }

@@ -6,8 +6,8 @@ import 'communitylist.dart';
 import 'feed.dart';
 
 class Home extends StatefulWidget {
-  final String userId;
-  const Home({Key? key, required this.userId}) : super(key: key);
+  final int pageIndex;
+  const Home({Key? key, required this.pageIndex}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _Home();
@@ -15,7 +15,7 @@ class Home extends StatefulWidget {
 
 class _Home extends State<Home> {
   late PageController _pageController;
-  int _currentIndex = 0;
+  late int _currentIndex = widget.pageIndex;
 
   @override
   void initState() {

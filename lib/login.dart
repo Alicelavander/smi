@@ -100,7 +100,7 @@ class _LoginPage extends State<Login> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Home(userId: user.uid),
+                          builder: (context) => const Home(pageIndex: 0),
                         )
                     );
 
@@ -146,7 +146,7 @@ class _LoginPage extends State<Login> {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => Home(userId: user.uid,),
+                          builder: (context) => const Home(pageIndex: 0),
                         )
                     );
 
