@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smi/community/communityhome.dart';
@@ -13,22 +14,35 @@ class AddIdentity extends StatefulWidget {
 class _AddIdentityPage extends State<AddIdentity> {
   FirebaseFirestore db = FirebaseFirestore.instance;
   String identityName = "";
+  bool postAnonymous = true;
 
   Future<void> addIdentity() async {
-    var docRef = db.collection('communities').doc(widget.communityId).collection('identities').doc(identityName);
+    CollectionReference collection = db.collection('communities').doc(widget.communityId).collection('identities');
+    Query query = collection.where("name", isEqualTo: identityName);
+    FirebaseAuth auth = FirebaseAuth.instance;
+    User? user = auth.currentUser;
 
-    await docRef.get().then((doc) => (){
-      if (doc.exists) {
-        docRef.update({"population": doc['population']+1});
+    collection.add({
+      'name': identityName,
+    }).then((DocumentReference newDocument) => {
+      if(postAnonymous){
+        collection.doc(newDocument.id).collection('population').add({
+          'name': 'Anonymous',
+        })
       } else {
-        docRef.set({"population": 1});
+        collection.doc(newDocument.id).collection('population').add({
+          'name': user?.displayName,
+        })
       }
-    }).then((value) => Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => CommunityHome(communityId: widget.communityId),
-        )
-    ));
+    });
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CommunityHome(communityId: widget.communityId),
+      )
+    );
+
   }
 
   @override
@@ -52,7 +66,16 @@ class _AddIdentityPage extends State<AddIdentity> {
                 },
               ),
             ),
-
+            Padding(
+              padding: const EdgeInsets.fromLTRB(10, 10, 0.0, 10.0),
+              child: SwitchListTile(
+                title: const Text('post anonymously?'),
+                value: postAnonymous,
+                onChanged: (bool value){
+                  postAnonymous = value;
+                },
+              ),
+            ),
             ButtonTheme(
               minWidth: 350.0,
               // height: 100.0,

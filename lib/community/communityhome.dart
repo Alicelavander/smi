@@ -70,7 +70,7 @@ class _CommunityHomePage extends State<CommunityHome> {
                             children: snapshot.data!.docs.map((document) =>
                                 Card(
                                   child: ListTile(
-                                    title: Text(document.id),
+                                    title: Text(document['name']),
                                     onTap: () {},
                                   ),
                                   shape: RoundedRectangleBorder(
