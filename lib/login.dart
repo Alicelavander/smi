@@ -127,6 +127,21 @@ class _LoginPage extends State<Login> {
               Buttons.Google,
               onPressed: () async {
                 try {
+                  /*
+                  //Web用セットアップ
+                  GoogleAuthProvider googleProvider = GoogleAuthProvider();
+                  googleProvider.addScope('email');
+                  googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+                  await FirebaseAuth.instance.signInWithPopup(googleProvider);
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const Home(pageIndex: 0),
+                      )
+                  );
+                  return;
+                   */
+                  //Android用セットアップ
                   GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
                   GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
                   AuthCredential credential = GoogleAuthProvider.credential(

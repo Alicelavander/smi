@@ -1,5 +1,11 @@
 {
   "dependencies": {
-    "firebase": "^9.4.1"
+    "firebase": "^9.6.10"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "predeploy": "npm run build",
+    "deploy": "firebase build"
   }
 }
