@@ -14,7 +14,7 @@ class AddIdentity extends StatefulWidget {
 class _AddIdentityPage extends State<AddIdentity> {
   FirebaseFirestore db = FirebaseFirestore.instance;
   String identityName = "";
-  bool postAnonymous = true;
+  bool _postAnonymous = true;
 
   Future<void> addIdentity() async {
     CollectionReference collection = db.collection('communities').doc(widget.communityId).collection('identities');
@@ -25,7 +25,7 @@ class _AddIdentityPage extends State<AddIdentity> {
     collection.add({
       'name': identityName,
     }).then((DocumentReference newDocument) => {
-      if(postAnonymous){
+      if(_postAnonymous){
         collection.doc(newDocument.id).collection('population').add({
           'name': 'Anonymous',
         })
@@ -70,9 +70,11 @@ class _AddIdentityPage extends State<AddIdentity> {
               padding: const EdgeInsets.fromLTRB(10, 10, 0.0, 10.0),
               child: SwitchListTile(
                 title: const Text('post anonymously?'),
-                value: postAnonymous,
+                value: _postAnonymous,
                 onChanged: (bool value){
-                  postAnonymous = value;
+                  setState(() {
+                    _postAnonymous = value;
+                  });
                 },
               ),
             ),
