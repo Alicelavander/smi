@@ -25,9 +25,9 @@ class _CommunityHomePage extends State<CommunityHome> {
     return snapshot;
   }
 
-  Future<String> getCommunityName() async {
+  Future<String> getCommunityInfo(String info) async {
     DocumentSnapshot doc = await db.collection('communities').doc(widget.communityId).get();
-    return doc['name'].toString();
+    return doc[info].toString();
   }
 
   @override
@@ -36,7 +36,7 @@ class _CommunityHomePage extends State<CommunityHome> {
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: FutureBuilder<String>(
-          future: getCommunityName(),
+          future: getCommunityInfo('name'),
           builder: (context, snapshot) {
             return Text("${snapshot.data}'s identity board");
           }
@@ -94,8 +94,25 @@ class _CommunityHomePage extends State<CommunityHome> {
                 },
               ),
             ),
-          ],
-        ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0, 10, 0, 20),
+                child: FutureBuilder<String>(
+                    future: getCommunityInfo('code'),
+                    builder: (context, snapshot) {
+                      return Text(
+                        "Invitation code: ${snapshot.data}",
+                        style: const TextStyle(
+                          fontSize: 20
+                        ),
+                      );
+                    }
+                ),
+              )
+            ),
+          ]
+        )
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
