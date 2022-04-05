@@ -21,7 +21,6 @@ class _AddIdentityPage extends State<AddIdentity> {
     Query query = collection.where("name", isEqualTo: identityName);
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
-    bool identityNew;
 
     var result = await query.get();
     if(result.docs.isEmpty){

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:smi/newcommunity/joincommunity.dart';
@@ -12,8 +13,9 @@ class CommunityList extends StatefulWidget {
 }
 
 class _CommunityListPage extends State<CommunityList> {
+  User? user = FirebaseAuth.instance.currentUser;
   final db = FirebaseFirestore.instance;
-  List<DocumentSnapshot> documentList = [];
+  List<DocumentSnapshot> listData = [];
 
   @override
   void initState() {
@@ -21,9 +23,14 @@ class _CommunityListPage extends State<CommunityList> {
     getListData();
   }
 
-  Future<void> getListData() async {
-    final snapshot = await db.collection('communities').get();
-    documentList = snapshot.docs;
+  Future<List<DocumentSnapshot<Object?>>> getListData() async {
+    Query query = db.collection('user-community-link').where("user", isEqualTo: user?.uid);
+    var result = await query.get();
+    result.docs.map((document) async {
+      var doc = await db.collection('communities').doc(document['community']).get();
+      listData.add(doc);
+    });
+    return listData;
   }
 
   @override
@@ -32,15 +39,15 @@ class _CommunityListPage extends State<CommunityList> {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder<QuerySnapshot>(
-              future: db.collection('communities').get(),
+            child: FutureBuilder<List<DocumentSnapshot<Object?>>>(
+              future: getListData(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView(
-                    children: documentList.map((document) {
+                    children: listData.map((document) {
                       return Card(
                         child: ListTile(
-                          title: Text(document['name']),
+                          title: Text(document.data().toString()),
                           onTap: () {
                             Navigator.push(
                                 context,

@@ -62,11 +62,16 @@ class _AddCommunityPage extends State<AddCommunity> {
               // height: 100.0,
               child: ElevatedButton(
                   onPressed: () async {
+                    User? user = FirebaseAuth.instance.currentUser;
                     // サブコレクション内にドキュメント作成
                     await db.collection('communities').add({
                       'name': communityName,
                       'code': getRandomString(7)
                     }).then((DocumentReference newCommunity) => {
+                      db.collection('user-community-link').add({
+                        'user': user?.uid,
+                        'community': newCommunity.id
+                      }),
                       Navigator.push(
                         context,
                         MaterialPageRoute(

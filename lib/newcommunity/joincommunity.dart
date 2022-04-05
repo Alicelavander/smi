@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../community/communityhome.dart';
 import '../login.dart';
 
 class JoinCommunity extends StatefulWidget {
@@ -11,14 +13,14 @@ class JoinCommunity extends StatefulWidget {
 }
 
 class _JoinCommunityPage extends State<JoinCommunity> {
-
+  FirebaseFirestore db = FirebaseFirestore.instance;
   String communityCode = "";
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("コミュニティに参加"),
+        title: const Text("Join a community"),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -54,8 +56,27 @@ class _JoinCommunityPage extends State<JoinCommunity> {
               minWidth: 350.0,
               // height: 100.0,
               child: ElevatedButton(
-                onPressed: () {
-                  ///communitiesのinvitation codeのむにゃむにゃ
+                onPressed: () async {
+                  User? user = FirebaseAuth.instance.currentUser;
+                  Query query = db.collection('communities').where("code", isEqualTo: communityCode);
+                  var result = await query.get();
+
+                  if(result.docs.isEmpty){
+                    ///Community doesn't exist!
+                  } else {
+                    ///先に確認てきなん入れたい
+                    db.collection('user-community-link').add({
+                      'user': user?.uid,
+                      'community': result.docs.single.id
+                    }).then((value) => {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CommunityHome(communityId: result.docs.single.id),
+                          )
+                      )
+                    });
+                  }
                 },
                 child: const Text('Join',
                   style: TextStyle(
