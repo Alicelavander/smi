@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:smi/newcommunity/joincommunity.dart';
-import '../newcommunity/addcommunity.dart';
+import '../newcommunity/createcommunity.dart';
 import '../community/communityhome.dart';
 
 class CommunityList extends StatefulWidget {
