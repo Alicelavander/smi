@@ -20,20 +20,7 @@ class _JoinCommunityPage extends State<JoinCommunity> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Join a community"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              await Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) {
-                  return const Login();
-                }),
-              );
-            },
-          ),
-        ],
+        title: const Text("Join a community")
       ),
       body: Center(
         child: Column(

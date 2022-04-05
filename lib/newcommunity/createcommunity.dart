@@ -6,13 +6,13 @@ import 'package:smi/community/communityhome.dart';
 import '../login.dart';
 import 'dart:math';
 
-class AddCommunity extends StatefulWidget {
-  const AddCommunity({Key? key}) : super(key: key);
+class CreateCommunity extends StatefulWidget {
+  const CreateCommunity({Key? key}) : super(key: key);
   @override
-  _AddCommunityPage createState() => _AddCommunityPage();
+  _CreateCommunityPage createState() => _CreateCommunityPage();
 }
 
-class _AddCommunityPage extends State<AddCommunity> {
+class _CreateCommunityPage extends State<CreateCommunity> {
   FirebaseFirestore db = FirebaseFirestore.instance;
   String communityName = "";
   final String _chars = 'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
@@ -25,20 +25,7 @@ class _AddCommunityPage extends State<AddCommunity> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Create a new community"),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.logout),
-            onPressed: () async {
-              await FirebaseAuth.instance.signOut();
-              await Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) {
-                  return const Login();
-                }),
-              );
-            },
-          ),
-        ],
+        title: const Text("Create a new community")
       ),
       body: Center(
         child: Column(

@@ -5,7 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'AuthenticationError.dart';
 import 'signup.dart';
 import 'home/home.dart';
 
@@ -23,8 +22,6 @@ class _LoginPage extends State<Login> {
 
   // Firebase Authenticationを利用するためのインスタンス
   final FirebaseAuth auth = FirebaseAuth.instance;
-  // エラーメッセージを日本語化するためのクラス
-  final authError = AuthenticationError();
 
   final GoogleSignIn _googleSignIn = GoogleSignIn(
     scopes: [
@@ -101,7 +98,7 @@ class _LoginPage extends State<Login> {
                   } catch (e) {
                     // ログインに失敗した場合
                     setState(() {
-                      infoText = authError.loginErrorMsg(e.toString());
+                      infoText = e.toString();
                     });
                   }
                 },

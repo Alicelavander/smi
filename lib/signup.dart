@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
-import 'AuthenticationError.dart';
 import 'home/home.dart';
 import 'login.dart';
 
@@ -21,9 +20,6 @@ class _SignupState extends State<Signup> {
 
   // Firebase Authenticationを利用するためのインスタンス
   final FirebaseAuth auth = FirebaseAuth.instance;
-
-  // エラーメッセージを日本語化するためのクラス
-  final authError = AuthenticationError();
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +92,7 @@ class _SignupState extends State<Signup> {
                     } catch (e) {
                       // 登録に失敗した場合
                       setState(() {
-                        infoText = authError.registerErrorMsg(e.toString());
+                        infoText = e.toString();
                       });
                     }
                   }else{
