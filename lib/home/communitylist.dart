@@ -17,20 +17,12 @@ class _CommunityListPage extends State<CommunityList> {
   final db = FirebaseFirestore.instance;
   List<DocumentSnapshot> listData = [];
 
-  @override
-  void initState() {
-    super.initState();
-    getListData();
-  }
-
   Future<List<DocumentSnapshot<Object?>>> getListData() async {
     Query query = db.collection('user-community-link').where("user", isEqualTo: user?.uid);
     var result = await query.get();
-    result.docs.map((document) async {
-      var doc = await db.collection('communities').doc(document['community']).get();
-      listData.add(doc);
-    });
-    return listData;
+    return result.docs.map((document) {
+      db.collection('communities').doc(document['community']).get();
+    }).toList();
   }
 
   @override
@@ -47,7 +39,7 @@ class _CommunityListPage extends State<CommunityList> {
                     children: listData.map((document) {
                       return Card(
                         child: ListTile(
-                          title: Text(document.data().toString()),
+                          title: Text("にゃー"),
                           onTap: () {
                             Navigator.push(
                                 context,
