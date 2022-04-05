@@ -93,12 +93,12 @@ class _CommunityListPage extends State<CommunityList> {
             child: const Icon(Icons.add),
             backgroundColor: Colors.deepOrange,
             foregroundColor: Colors.white,
-            label: 'Add',
+            label: 'Create',
             onTap: () {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const AddCommunity(),
+                    builder: (context) => const CreateCommunity(),
                   )
               );
             },
