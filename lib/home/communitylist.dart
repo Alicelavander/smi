@@ -16,7 +16,7 @@ class _CommunityListPage extends State<CommunityList> {
   User? user = FirebaseAuth.instance.currentUser;
   final db = FirebaseFirestore.instance;
 
-  Future<List<Future<DocumentSnapshot<Map<String, dynamic>>>>> getListData() async {
+  Future<List<DocumentSnapshot<Map<String, dynamic>>>> getListData() async {
     Query query = db.collection('user-community-link').where("user", isEqualTo: user?.uid);
     var result = await query.get();
     return result.docs.map((document) {
@@ -30,21 +30,20 @@ class _CommunityListPage extends State<CommunityList> {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder<List<Future<DocumentSnapshot<Map<String, dynamic>>>>>(
+            child: FutureBuilder<List<DocumentSnapshot<Map<String, dynamic>>>> (
               future: getListData(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView(
                     children: snapshot.data!.map((document) {
-                      print(document);
                       return Card(
                         child: ListTile(
-                          title: Text("document['name']"),
+                          title: Text(document["name"]),
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CommunityHome(communityId: "document.id"),
+                                  builder: (context) => CommunityHome(communityId: document.id),
                                 )
                             );
                           },
