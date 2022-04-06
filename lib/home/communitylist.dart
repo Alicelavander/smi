@@ -15,13 +15,12 @@ class CommunityList extends StatefulWidget {
 class _CommunityListPage extends State<CommunityList> {
   User? user = FirebaseAuth.instance.currentUser;
   final db = FirebaseFirestore.instance;
-  List<DocumentSnapshot> listData = [];
 
-  Future<List<DocumentSnapshot<Object?>>> getListData() async {
+  Future<List<Future<DocumentSnapshot<Map<String, dynamic>>>>> getListData() async {
     Query query = db.collection('user-community-link').where("user", isEqualTo: user?.uid);
     var result = await query.get();
     return result.docs.map((document) {
-      db.collection('communities').doc(document['community']).get();
+      return db.collection('communities').doc(document['community']).get();
     }).toList();
   }
 
@@ -31,20 +30,21 @@ class _CommunityListPage extends State<CommunityList> {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder<List<DocumentSnapshot<Object?>>>(
+            child: FutureBuilder<List<Future<DocumentSnapshot<Map<String, dynamic>>>>>(
               future: getListData(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView(
-                    children: listData.map((document) {
+                    children: snapshot.data!.map((document) {
+                      print(document);
                       return Card(
                         child: ListTile(
-                          title: Text("にゃー"),
+                          title: Text("document['name']"),
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CommunityHome(communityId: document.id),
+                                  builder: (context) => CommunityHome(communityId: "document.id"),
                                 )
                             );
                           },
