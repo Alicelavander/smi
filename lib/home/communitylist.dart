@@ -19,9 +19,9 @@ class _CommunityListPage extends State<CommunityList> {
   Future<List<DocumentSnapshot<Map<String, dynamic>>>> getListData() async {
     Query query = db.collection('user-community-link').where("user", isEqualTo: user?.uid);
     var result = await query.get();
-    return result.docs.map((document) {
+    return Future.wait(result.docs.map((document) {
       return db.collection('communities').doc(document['community']).get();
-    }).toList();
+    }).toList());
   }
 
   @override
