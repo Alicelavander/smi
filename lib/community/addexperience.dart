@@ -6,48 +6,38 @@ import 'package:smi/community/communityhome.dart';
 
 class AddExperience extends StatefulWidget {
   final String communityId;
-  const AddExperience({Key? key, required this.communityId}) : super(key: key);
+  final String identityName;
+  const AddExperience({Key? key, required this.communityId, required this.identityName}) : super(key: key);
   @override
   _AddExperiencePage createState() => _AddExperiencePage();
 }
 
 class _AddExperiencePage extends State<AddExperience> {
   FirebaseFirestore db = FirebaseFirestore.instance;
-  String identityName = "";
+  String experience = "";
   bool _postAnonymous = true;
 
-  Future<void> addIdentity() async {
+  Future<void> addExperience() async {
     CollectionReference collection = db.collection('communities').doc(widget.communityId).collection('identities');
-    Query query = collection.where("name", isEqualTo: identityName);
-    FirebaseAuth auth = FirebaseAuth.instance;
-    User? user = auth.currentUser;
+    Query query = collection.where("name", isEqualTo: widget.identityName);
+    User? user = FirebaseAuth.instance.currentUser;
 
     var result = await query.get();
-    if(result.docs.isEmpty){
-      collection.add({
-        'name': identityName
-      }).then((DocumentReference newDocument) => {
-        if(_postAnonymous){
-          collection.doc(newDocument.id).collection('population').add({
-            'name': 'Anonymous',
-          })
-        } else {
-          collection.doc(newDocument.id).collection('population').add({
-            'name': user?.displayName,
-          })
-        }
-      });
-    } else {
+    db.collection('posts').add({
+      'experience': experience,
+      'community': widget.communityId,
+      'identity': widget.identityName,
+    }).then((newDocument) => {
       if(_postAnonymous){
-        collection.doc(result.docs.single.id).collection('population').add({
-          'name': 'Anonymous'
-        });
+        collection.doc(newDocument.id).collection('population').add({
+          'author': 'Anonymous',
+        })
       } else {
-        collection.doc(result.docs.single.id).collection('population').add({
-          'name': user?.displayName
-        });
+        collection.doc(newDocument.id).collection('population').add({
+          'author': user?.displayName,
+        })
       }
-    }
+    });
 
     Navigator.push(
         context,
@@ -61,7 +51,7 @@ class _AddExperiencePage extends State<AddExperience> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          title: const Text("Add your identity")
+          title: const Text("Share your experience")
       ),
       body: Center(
         child: Column(
@@ -69,12 +59,12 @@ class _AddExperiencePage extends State<AddExperience> {
           children: <Widget>[
             Padding(
               padding:  const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
-              child:TextFormField(
+              child:TextField(
                 maxLengthEnforcement: MaxLengthEnforcement.none, decoration: const InputDecoration(
-                  labelText: "Enter your identity"
-              ),
+                  labelText: "Write your experience"
+                ),
                 onChanged: (String value) {
-                  identityName = value;
+                  experience = value;
                 },
               ),
             ),
@@ -94,7 +84,7 @@ class _AddExperiencePage extends State<AddExperience> {
               minWidth: 350.0,
               // height: 100.0,
               child: ElevatedButton(
-                onPressed: addIdentity,
+                onPressed: addExperience,
                 child: const Text('Add',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,

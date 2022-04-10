@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:smi/community/identitydetail.dart';
 import 'package:smi/home/home.dart';
 import 'addidentity.dart';
 
@@ -71,7 +72,14 @@ class _CommunityHomePage extends State<CommunityHome> {
                                 Card(
                                   child: ListTile(
                                     title: Text(document['name']),
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => IdentityDetail(communityId: widget.communityId, identityId: document.id),
+                                          )
+                                      );
+                                    },
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),
