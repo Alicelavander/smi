@@ -20,16 +20,22 @@ class _IdentityDetailPage extends State<IdentityDetail> {
     List<String> nameList = [];
     await db.collection('communities').doc(widget.communityId).collection('identities').doc(widget.identityId).collection('population').get().then((value) => {
       value.docs.forEach((element) {
+        print(element["name"]);
         if(element["name"].toString() == "Anonymous"){
           anonymous++;
         } else {
           nameList.add(element["name"]);
-          print(element["name"]);
+          //print(element["name"]);
         }
       })
     });
     String names = nameList.toString();
-    return "$names, and $anonymous anonymous people";
+    names = names.substring(1, names.length-1);
+    if(names.isEmpty) {
+      return "$anonymous anonymous people";
+    } else {
+      return "$names, and $anonymous anonymous people";
+    }
   }
 
   Future<String> getCommunityInfo(String info) async {
@@ -48,35 +54,33 @@ class _IdentityDetailPage extends State<IdentityDetail> {
               }
           ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            FutureBuilder<String> (
-              future: userNameList(),
-              builder: (context, snapshot) {
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
-                  child: Text(
-                    "Posted by: ${snapshot.data}",
-                  ),
-                );
-              }
+      body: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          FutureBuilder<String> (
+            future: userNameList(),
+            builder: (context, snapshot) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
+                child: Text(
+                  "Posted by: ${snapshot.data}",
+                ),
+              );
+            }
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(10, 10, 0.0, 10.0),
+            child: SwitchListTile(
+              title: const Text('post anonymously?'),
+              value: _postAnonymous,
+              onChanged: (bool value){
+                setState(() {
+                  _postAnonymous = value;
+                });
+              },
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 0.0, 10.0),
-              child: SwitchListTile(
-                title: const Text('post anonymously?'),
-                value: _postAnonymous,
-                onChanged: (bool value){
-                  setState(() {
-                    _postAnonymous = value;
-                  });
-                },
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),

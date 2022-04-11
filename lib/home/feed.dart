@@ -14,15 +14,12 @@ class _FeedPage extends State<Feed> {
   User? user = FirebaseAuth.instance.currentUser;
   final db = FirebaseFirestore.instance;
 
-  Future<QuerySnapshot<Map<String, dynamic>>?> getPostsData() async {
+  Future<List<QuerySnapshot<Map<String, dynamic>>>> getPostsData() async {
     Query query = db.collection('user-community-link').where("user", isEqualTo: user?.uid);
     var result = await query.get();
-    QuerySnapshot<Map<String, dynamic>>? postList;
-    Future.wait(result.docs.map((document) async {
-      var post = await db.collection('posts').where("community", isEqualTo: document.id).get();
-      postList?.docs.add(post.docs.first);
+    return Future.wait(result.docs.map((document) {
+      return db.collection('posts').where("community", isEqualTo: document.id).get();
     }));
-    return postList;
   }
 
   @override
@@ -32,20 +29,20 @@ class _FeedPage extends State<Feed> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            FutureBuilder<QuerySnapshot<Map<String, dynamic>>?> (
+            FutureBuilder<List<QuerySnapshot<Map<String, dynamic>>>> (
               future: getPostsData(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView(
-                    children: snapshot.data!.docs.map((document) {
+                    children: snapshot.data!.map((document) {
                       return Card(
                         child: ListTile(
-                          title: Text(document["experience"]),
+                          title: Text(document.docs.first["experience"]),
                           onTap: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CommunityHome(communityId: document.id),
+                                  builder: (context) => CommunityHome(communityId: document.docs.first.id),
                                 )
                             );
                           },
