@@ -57,8 +57,9 @@ class _CommunityListPage extends State<CommunityList> {
                     }).toList(),
                   );
                 } else {
-                  const Text("Start by joining or adding a community!", style: TextStyle(fontSize: 16));
-                }
+                  const Center(
+                    child: Text('Start by joining or creating a community.', style: TextStyle(fontSize: 16)),
+                  );                }
                 // データが読込中の場合
                 return const Center(
                   child: Text('Loading...'),
