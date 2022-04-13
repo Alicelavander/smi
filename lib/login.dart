@@ -10,15 +10,15 @@ import 'home/home.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
+
   @override
   _LoginPage createState() => _LoginPage();
 }
 
 class _LoginPage extends State<Login> {
-
-  String loginEmail = "";  // 入力されたメールアドレス
-  String loginPassword = "";  // 入力されたパスワード
-  String infoText = "";  // ログインに関する情報を表示
+  String loginEmail = ""; // 入力されたメールアドレス
+  String loginPassword = ""; // 入力されたパスワード
+  String infoText = ""; // ログインに関する情報を表示
 
   // Firebase Authenticationを利用するためのインスタンス
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -39,42 +39,42 @@ class _LoginPage extends State<Login> {
           children: <Widget>[
             const Padding(
                 padding: EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
-                child:Text("Welcome to smi!",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
-            ),
+                child: Text("Welcome to smi!",
+                    style:
+                        TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
 
             // メールアドレスの入力フォーム
             Padding(
                 padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 0),
-                child:TextFormField(
-                  decoration: const InputDecoration(
-                      labelText: "Email address"
-                  ),
+                child: TextFormField(
+                  decoration: const InputDecoration(labelText: "Email address"),
                   onChanged: (String value) {
                     loginEmail = value;
                   },
-                )
-            ),
+                )),
 
             // パスワードの入力フォーム
             Padding(
               padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
-              child:TextFormField(
-                maxLengthEnforcement: MaxLengthEnforcement.none, decoration: const InputDecoration(
-                    labelText: "Password"
-                ),
-                obscureText: true,  // パスワードが見えないようRにする
-                maxLength: 20,  // 入力可能な文字数の制限を超える場合の挙動の制御
+              child: TextFormField(
+                maxLengthEnforcement: MaxLengthEnforcement.none,
+                decoration: const InputDecoration(labelText: "Password"),
+                obscureText: true,
+                // パスワードが見えないようRにする
+                maxLength: 20,
+                // 入力可能な文字数の制限を超える場合の挙動の制御
                 onChanged: (String value) {
-                  loginPassword= value;
+                  loginPassword = value;
                 },
               ),
             ),
 
             Padding(
               padding: const EdgeInsets.fromLTRB(20.0, 0, 20.0, 5.0),
-              child:Text(infoText,
-                style: const TextStyle(color: Colors.red),),
+              child: Text(
+                infoText,
+                style: const TextStyle(color: Colors.red),
+              ),
             ),
 
             //ログインボタン
@@ -85,16 +85,16 @@ class _LoginPage extends State<Login> {
                 onPressed: () async {
                   try {
                     // メール/パスワードでユーザー登録
-                    await auth.signInWithEmailAndPassword(
-                      email: loginEmail,
-                      password: loginPassword,
-                    ).then((value) => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Home(pageIndex: 0),
+                    await auth
+                        .signInWithEmailAndPassword(
+                          email: loginEmail,
+                          password: loginPassword,
                         )
-                    ));
-
+                        .then((value) => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Home(pageIndex: 0),
+                            )));
                   } catch (e) {
                     // ログインに失敗した場合
                     setState(() {
@@ -102,11 +102,10 @@ class _LoginPage extends State<Login> {
                     });
                   }
                 },
-                child: const Text('Login',
+                child: const Text(
+                  'Login',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white
-                  ),
+                      fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.blue, //ボタンの背景色
@@ -139,20 +138,22 @@ class _LoginPage extends State<Login> {
                   return;
                    */
                   //Android用セットアップ
-                  GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-                  GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
+                  GoogleSignInAccount? googleUser =
+                      await _googleSignIn.signIn();
+                  GoogleSignInAuthentication googleAuth =
+                      await googleUser!.authentication;
                   AuthCredential credential = GoogleAuthProvider.credential(
                     accessToken: googleAuth.accessToken,
                     idToken: googleAuth.idToken,
                   );
                   try {
-                    await auth.signInWithCredential(credential).then((value) => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Home(pageIndex: 0),
-                        )
-                    ));
-
+                    await auth
+                        .signInWithCredential(credential)
+                        .then((value) => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Home(pageIndex: 0),
+                            )));
                   } catch (e) {
                     if (kDebugMode) {
                       print(e);
@@ -174,38 +175,36 @@ class _LoginPage extends State<Login> {
       ),
 
       // 画面下にボタンの配置
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-            const Text("Not signed up yet? Then:"),
-            Padding(
-            padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
-            child:ButtonTheme(
-              minWidth: 350.0,
-              // height: 100.0,
-              child: ElevatedButton(
-                // ボタンクリック後に新規作成用の画面の遷移する。
-                onPressed: (){
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      fullscreenDialog: true,
-                      builder: (BuildContext context) => const Signup(),
-                    ),
-                  );
-                },
-                child: const Text('Create a new account',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue
+      bottomNavigationBar:
+          Column(mainAxisSize: MainAxisSize.min, children: <Widget>[
+        const Text("Not signed up yet? Then:"),
+        Padding(
+          padding: const EdgeInsets.only(top: 5.0, bottom: 10.0),
+          child: ButtonTheme(
+            minWidth: 350.0,
+            // height: 100.0,
+            child: ElevatedButton(
+              // ボタンクリック後に新規作成用の画面の遷移する。
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    fullscreenDialog: true,
+                    builder: (BuildContext context) => const Signup(),
                   ),
-                ),
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.blue[50], //ボタンの背景色
-                ),
+                );
+              },
+              child: const Text(
+                'Create a new account',
+                style:
+                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.blue[50], //ボタンの背景色
               ),
             ),
           ),
-        ]),
+        ),
+      ]),
     );
   }
 }

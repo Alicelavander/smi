@@ -8,6 +8,7 @@ import '../community/communityhome.dart';
 
 class CommunityList extends StatefulWidget {
   const CommunityList({Key? key}) : super(key: key);
+
   @override
   _CommunityListPage createState() => _CommunityListPage();
 }
@@ -17,7 +18,9 @@ class _CommunityListPage extends State<CommunityList> {
   final db = FirebaseFirestore.instance;
 
   Future<List<DocumentSnapshot<Map<String, dynamic>>>> getListData() async {
-    Query query = db.collection('user-community-link').where("user", isEqualTo: user?.uid);
+    Query query = db
+        .collection('user-community-link')
+        .where("user", isEqualTo: user?.uid);
     var result = await query.get();
     return Future.wait(result.docs.map((document) {
       return db.collection('communities').doc(document['community']).get();
@@ -30,7 +33,7 @@ class _CommunityListPage extends State<CommunityList> {
       body: Column(
         children: [
           Expanded(
-            child: FutureBuilder<List<DocumentSnapshot<Map<String, dynamic>>>> (
+            child: FutureBuilder<List<DocumentSnapshot<Map<String, dynamic>>>>(
               future: getListData(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -43,9 +46,9 @@ class _CommunityListPage extends State<CommunityList> {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => CommunityHome(communityId: document.id),
-                                )
-                            );
+                                  builder: (context) =>
+                                      CommunityHome(communityId: document.id),
+                                ));
                           },
                         ),
                         shape: RoundedRectangleBorder(
@@ -58,8 +61,10 @@ class _CommunityListPage extends State<CommunityList> {
                   );
                 } else {
                   const Center(
-                    child: Text('Start by joining or creating a community.', style: TextStyle(fontSize: 16)),
-                  );                }
+                    child: Text('Start by joining or creating a community.',
+                        style: TextStyle(fontSize: 16)),
+                  );
+                }
                 // データが読込中の場合
                 return const Center(
                   child: Text('Loading...'),
@@ -91,8 +96,7 @@ class _CommunityListPage extends State<CommunityList> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const CreateCommunity(),
-                  )
-              );
+                  ));
             },
           ),
           SpeedDialChild(
@@ -105,8 +109,7 @@ class _CommunityListPage extends State<CommunityList> {
                   context,
                   MaterialPageRoute(
                     builder: (context) => const JoinCommunity(),
-                  )
-              );
+                  ));
             },
           ),
         ],

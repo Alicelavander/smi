@@ -7,7 +7,11 @@ import 'package:smi/community/communityhome.dart';
 class AddExperience extends StatefulWidget {
   final String communityId;
   final String identityName;
-  const AddExperience({Key? key, required this.communityId, required this.identityName}) : super(key: key);
+
+  const AddExperience(
+      {Key? key, required this.communityId, required this.identityName})
+      : super(key: key);
+
   @override
   _AddExperiencePage createState() => _AddExperiencePage();
 }
@@ -18,7 +22,10 @@ class _AddExperiencePage extends State<AddExperience> {
   bool _postAnonymous = true;
 
   Future<void> addExperience() async {
-    CollectionReference collection = db.collection('communities').doc(widget.communityId).collection('identities');
+    CollectionReference collection = db
+        .collection('communities')
+        .doc(widget.communityId)
+        .collection('identities');
     Query query = collection.where("name", isEqualTo: widget.identityName);
     User? user = FirebaseAuth.instance.currentUser;
 
@@ -28,41 +35,41 @@ class _AddExperiencePage extends State<AddExperience> {
       'community': widget.communityId,
       'identity': widget.identityName,
     }).then((newDocument) => {
-      if(_postAnonymous){
-        collection.doc(newDocument.id).collection('population').add({
-          'author': 'Anonymous',
-        })
-      } else {
-        collection.doc(newDocument.id).collection('population').add({
-          'author': user?.displayName,
-        })
-      }
-    });
+          if (_postAnonymous)
+            {
+              collection.doc(newDocument.id).collection('population').add({
+                'author': 'Anonymous',
+              })
+            }
+          else
+            {
+              collection.doc(newDocument.id).collection('population').add({
+                'author': user?.displayName,
+              })
+            }
+        });
 
     Navigator.push(
         context,
         MaterialPageRoute(
           builder: (context) => CommunityHome(communityId: widget.communityId),
-        )
-    );
+        ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: const Text("Share your experience")
-      ),
+      appBar: AppBar(title: const Text("Share your experience")),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding:  const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
-              child:TextField(
-                maxLengthEnforcement: MaxLengthEnforcement.none, decoration: const InputDecoration(
-                  labelText: "Write your experience"
-                ),
+              padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
+              child: TextField(
+                maxLengthEnforcement: MaxLengthEnforcement.none,
+                decoration:
+                    const InputDecoration(labelText: "Write your experience"),
                 onChanged: (String value) {
                   experience = value;
                 },
@@ -73,7 +80,7 @@ class _AddExperiencePage extends State<AddExperience> {
               child: SwitchListTile(
                 title: const Text('post anonymously?'),
                 value: _postAnonymous,
-                onChanged: (bool value){
+                onChanged: (bool value) {
                   setState(() {
                     _postAnonymous = value;
                   });
@@ -85,11 +92,10 @@ class _AddExperiencePage extends State<AddExperience> {
               // height: 100.0,
               child: ElevatedButton(
                 onPressed: addExperience,
-                child: const Text('Add',
+                child: const Text(
+                  'Add',
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white
-                  ),
+                      fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.blue, //ボタンの背景色

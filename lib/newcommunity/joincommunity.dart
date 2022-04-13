@@ -8,6 +8,7 @@ import '../login.dart';
 
 class JoinCommunity extends StatefulWidget {
   const JoinCommunity({Key? key}) : super(key: key);
+
   @override
   _JoinCommunityPage createState() => _JoinCommunityPage();
 }
@@ -19,36 +20,35 @@ class _JoinCommunityPage extends State<JoinCommunity> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Join a community")
-      ),
+      appBar: AppBar(title: const Text("Join a community")),
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Padding(
-              padding:  const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
-              child:TextFormField(
-                maxLengthEnforcement: MaxLengthEnforcement.none, decoration: const InputDecoration(
-                  labelText: "Invitation code"
-              ),
-                maxLength: 20,  // 入力可能な文字数の制限を超える場合の挙動の制御
+              padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
+              child: TextFormField(
+                maxLengthEnforcement: MaxLengthEnforcement.none,
+                decoration: const InputDecoration(labelText: "Invitation code"),
+                maxLength: 20,
+                // 入力可能な文字数の制限を超える場合の挙動の制御
                 onChanged: (String value) {
                   communityCode = value;
                 },
               ),
             ),
-
             ButtonTheme(
               minWidth: 350.0,
               // height: 100.0,
               child: ElevatedButton(
                 onPressed: () async {
                   User? user = FirebaseAuth.instance.currentUser;
-                  Query query = db.collection('communities').where("code", isEqualTo: communityCode);
+                  Query query = db
+                      .collection('communities')
+                      .where("code", isEqualTo: communityCode);
                   var result = await query.get();
 
-                  if(result.docs.isEmpty){
+                  if (result.docs.isEmpty) {
                     ///Community doesn't exist!
                   } else {
                     ///先に確認てきなん入れたい
@@ -56,20 +56,19 @@ class _JoinCommunityPage extends State<JoinCommunity> {
                       'user': user?.uid,
                       'community': result.docs.single.id
                     }).then((value) => {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => CommunityHome(communityId: result.docs.single.id),
-                          )
-                      )
-                    });
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => CommunityHome(
+                                    communityId: result.docs.single.id),
+                              ))
+                        });
                   }
                 },
-                child: const Text('Join',
+                child: const Text(
+                  'Join',
                   style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white
-                  ),
+                      fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.blue, //ボタンの背景色

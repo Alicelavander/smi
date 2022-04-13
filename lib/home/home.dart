@@ -6,6 +6,7 @@ import 'feed.dart';
 
 class Home extends StatefulWidget {
   final int pageIndex;
+
   const Home({Key? key, required this.pageIndex}) : super(key: key);
 
   @override
@@ -35,11 +36,8 @@ class _Home extends State<Home> {
   }
 
   void onItemTapped(int index) {
-    _pageController.animateToPage(
-        index,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.ease
-    );
+    _pageController.animateToPage(index,
+        duration: const Duration(milliseconds: 300), curve: Curves.ease);
   }
 
   @override
@@ -72,7 +70,10 @@ class _Home extends State<Home> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(icon: Icon(Icons.feed), label: 'feed',),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.feed),
+            label: 'feed',
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'groups'),
         ],
         currentIndex: _currentIndex,
@@ -83,4 +84,3 @@ class _Home extends State<Home> {
     );
   }
 }
-

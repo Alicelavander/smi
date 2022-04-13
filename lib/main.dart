@@ -7,7 +7,7 @@ import 'home/home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    /*
+      /*
     Web用セットアップ
     options: const FirebaseOptions(
       apiKey: 'AIzaSyB34IqDrVeynPFGjo1F68f_eCb48sTLt70',
@@ -19,12 +19,13 @@ void main() async {
       measurementId: 'G-GCRQVRZ9BX',
     ),
      */
-  );
+      );
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -40,7 +41,7 @@ class _CheckLogin extends StatelessWidget {
     // ログイン状態に応じて、画面を切り替える
     FirebaseAuth auth = FirebaseAuth.instance;
     User? user = auth.currentUser;
-    if(user?.uid != null){
+    if (user?.uid != null) {
       return const Home(pageIndex: 0);
     } else {
       return const Login();
