@@ -3,13 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smi/community/communityhome.dart';
+import 'package:smi/community/identitydetail.dart';
 
 class AddExperience extends StatefulWidget {
   final String communityId;
-  final String identityName;
+  final String identityId;
 
   const AddExperience(
-      {Key? key, required this.communityId, required this.identityName})
+      {Key? key, required this.communityId, required this.identityId})
       : super(key: key);
 
   @override
@@ -26,14 +27,14 @@ class _AddExperiencePage extends State<AddExperience> {
         .collection('communities')
         .doc(widget.communityId)
         .collection('identities');
-    Query query = collection.where("name", isEqualTo: widget.identityName);
+    Query query = collection.where("name", isEqualTo: widget.identityId);
     User? user = FirebaseAuth.instance.currentUser;
 
     var result = await query.get();
     db.collection('posts').add({
       'experience': experience,
       'community': widget.communityId,
-      'identity': widget.identityName,
+      'identity': widget.identityId,
     }).then((newDocument) => {
           if (_postAnonymous)
             {
@@ -52,7 +53,7 @@ class _AddExperiencePage extends State<AddExperience> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => CommunityHome(communityId: widget.communityId),
+          builder: (context) => IdentityDetail(communityId: widget.communityId, identityId: widget.identityId),
         ));
   }
 

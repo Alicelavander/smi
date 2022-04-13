@@ -21,7 +21,7 @@ class _FeedPage extends State<Feed> {
     var result = await query.get();
     return Future.wait(result.docs.map((document) {
       return db.collection('posts')
-          .where("community", isEqualTo: document.id)
+          .where("community", isEqualTo: document["community"])
           .get();
     }));
   }
@@ -41,7 +41,6 @@ class _FeedPage extends State<Feed> {
                       return ListView(
                         children: snapshot.data!.where((document) =>
                         document.docs.isNotEmpty).map((document) {
-                          print(document.docs.isEmpty);
                           return Card(
                             child: ListTile(
                               title: Text(document.docs.first["experience"]),
@@ -51,8 +50,7 @@ class _FeedPage extends State<Feed> {
                                     MaterialPageRoute(
                                       builder: (context) =>
                                           CommunityHome(
-                                              communityId: document.docs.first
-                                                  .id),
+                                              communityId: document.docs.first["community"]),
                                     )
                                 );
                               },

@@ -82,18 +82,6 @@ class _IdentityDetailPage extends State<IdentityDetail> {
                     ),
                   );
                 }),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 0.0, 10.0),
-              child: SwitchListTile(
-                title: const Text('post anonymously?'),
-                value: _postAnonymous,
-                onChanged: (bool value) {
-                  setState(() {
-                    _postAnonymous = value;
-                  });
-                },
-              ),
-            ),
           ],
         ),
         floatingActionButton: FloatingActionButton(
@@ -104,7 +92,7 @@ class _IdentityDetailPage extends State<IdentityDetail> {
                 MaterialPageRoute(
                   builder: (context) => AddExperience(
                       communityId: widget.communityId,
-                      identityName: widget.identityId),
+                      identityId: widget.identityId),
                 ));
           },
         ));
