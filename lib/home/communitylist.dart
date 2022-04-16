@@ -80,6 +80,7 @@ class _CommunityListPage extends State<CommunityList> {
         ],
       ),
       floatingActionButton: SpeedDial(
+        backgroundColor: const Color(0xFF0073a8),
         icon: Icons.add,
         activeIcon: Icons.close,
         spacing: 3,
