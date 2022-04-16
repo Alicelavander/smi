@@ -20,7 +20,7 @@ class _Home extends State<Home> {
   @override
   void initState() {
     super.initState();
-    _pageController = PageController();
+    _pageController = PageController(initialPage: _currentIndex);
   }
 
   @override
@@ -74,7 +74,9 @@ class _Home extends State<Home> {
             icon: Icon(Icons.feed),
             label: 'feed',
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'groups'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.groups),
+            label: 'groups'),
         ],
         currentIndex: _currentIndex,
         fixedColor: const Color(0xFF0073a8),
