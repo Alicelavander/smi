@@ -57,6 +57,16 @@ class _AddExperiencePage extends State<AddExperience> {
         ));
   }
 
+  Future<String> getCommunityName() async {
+    DocumentSnapshot doc = await db
+        .collection('communities')
+        .doc(widget.communityId)
+        .collection('identities')
+        .doc(widget.identityId)
+        .get();
+    return doc['name'].toString();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -65,6 +75,20 @@ class _AddExperiencePage extends State<AddExperience> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
+            FutureBuilder<String>(
+                future: getCommunityName(),
+                builder: (context, snapshot) {
+                  return Padding(
+                      padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 50),
+                      child: Text(
+                        'Identity: ${snapshot.data}',
+                        style: const TextStyle(
+                          fontSize: 25,
+                        ),
+                      )
+                  );
+                }
+            ),
             Padding(
               padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
               child: TextField(
@@ -99,7 +123,7 @@ class _AddExperiencePage extends State<AddExperience> {
                       fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, //ボタンの背景色
+                  primary: const Color(0xFF0073a8), //ボタンの背景色
                 ),
               ),
             ),

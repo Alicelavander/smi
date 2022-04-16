@@ -71,7 +71,7 @@ class _JoinCommunityPage extends State<JoinCommunity> {
                       fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, //ボタンの背景色
+                  primary: const Color(0xFF0073a8), //ボタンの背景色
                 ),
               ),
             ),

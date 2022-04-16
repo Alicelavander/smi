@@ -16,8 +16,6 @@ class IdentityDetail extends StatefulWidget {
 
 class _IdentityDetailPage extends State<IdentityDetail> {
   FirebaseFirestore db = FirebaseFirestore.instance;
-  String experience = "";
-  bool _postAnonymous = true;
 
   Future<String> userNameList() async {
     int anonymous = 0;
@@ -31,12 +29,10 @@ class _IdentityDetailPage extends State<IdentityDetail> {
         .get()
         .then((value) => {
               value.docs.forEach((element) {
-                print(element["name"]);
                 if (element["name"].toString() == "Anonymous") {
                   anonymous++;
                 } else {
                   nameList.add(element["name"]);
-                  //print(element["name"]);
                 }
               })
             });
@@ -44,6 +40,8 @@ class _IdentityDetailPage extends State<IdentityDetail> {
     names = names.substring(1, names.length - 1);
     if (names.isEmpty) {
       return "$anonymous anonymous people";
+    } else if (anonymous == 0){
+      return names;
     } else {
       return "$names, and $anonymous anonymous people";
     }
@@ -59,15 +57,23 @@ class _IdentityDetailPage extends State<IdentityDetail> {
     return doc[info].toString();
   }
 
+  Future<QuerySnapshot<Map<String, dynamic>>> getPostsData() async {
+    return await db.collection('posts')
+        .where("community", isEqualTo: widget.communityId)
+        .where("identity", isEqualTo: widget.identityId)
+        .get();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: FutureBuilder<String>(
-              future: getCommunityInfo('name'),
-              builder: (context, snapshot) {
-                return Text("${snapshot.data}");
-              }),
+            future: getCommunityInfo('name'),
+            builder: (context, snapshot) {
+              return Text("${snapshot.data}");
+            }
+          ),
         ),
         body: Column(
           mainAxisSize: MainAxisSize.min,
@@ -75,17 +81,75 @@ class _IdentityDetailPage extends State<IdentityDetail> {
             FutureBuilder<String>(
                 future: userNameList(),
                 builder: (context, snapshot) {
-                  return Padding(
-                    padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
-                    child: Text(
-                      "Posted by: ${snapshot.data}",
-                    ),
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15),
+                      child: Text(
+                        "Posted by: ${snapshot.data}",
+                        style: const TextStyle(
+                          fontSize: 20,
+                        ),
+                      ),
+                    )
                   );
                 }),
+            const Padding(padding: EdgeInsets.all(20)),
+            Expanded(
+              child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
+                future: getPostsData(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView(
+                      children: snapshot.data!.docs.map((document) {
+                        return Card(
+                          child: Container(
+                            padding: const EdgeInsets.all(10),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  document['experience'],
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                Text(
+                                  'written by someone',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          elevation: 10,
+                          margin: const EdgeInsets.fromLTRB(
+                            10.0, 5.0, 10.0, 5.0
+                          )
+                        );
+                      }).toList(),
+                    );
+                  } else {
+                    const Center(
+                      child: Text('No experiences shared yet.',
+                          style: TextStyle(fontSize: 16)),
+                    );
+                  }
+                  // データが読込中の場合
+                  return const Center(
+                    child: Text('Loading...'),
+                  );
+                },
+              ),
+            )
           ],
         ),
-        floatingActionButton: FloatingActionButton(
-          child: const Icon(Icons.add),
+        floatingActionButton: FloatingActionButton.extended(
+          icon: const Icon(Icons.add),
           onPressed: () {
             Navigator.push(
                 context,
@@ -95,6 +159,8 @@ class _IdentityDetailPage extends State<IdentityDetail> {
                       identityId: widget.identityId),
                 ));
           },
+          label: const Text('share experience'),
+          backgroundColor: const Color(0xFF0073a8),
         ));
   }
 }

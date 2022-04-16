@@ -77,7 +77,7 @@ class _Home extends State<Home> {
           BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'groups'),
         ],
         currentIndex: _currentIndex,
-        fixedColor: Colors.blueAccent,
+        fixedColor: const Color(0xFF0073a8),
         onTap: onItemTapped,
         type: BottomNavigationBarType.fixed,
       ),

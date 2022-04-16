@@ -103,12 +103,12 @@ class _LoginPage extends State<Login> {
                   }
                 },
                 child: const Text(
-                  'Login',
-                  style: TextStyle(
+                'Login',
+                style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue, //ボタンの背景色
+                  primary: const Color(0xFF0073a8), //ボタンの背景色
                 ),
               ),
             ),
@@ -196,7 +196,7 @@ class _LoginPage extends State<Login> {
               child: const Text(
                 'Create a new account',
                 style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Colors.blue),
+                    TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0073a8)),
               ),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue[50], //ボタンの背景色

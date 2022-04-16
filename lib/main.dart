@@ -8,7 +8,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
       /*
-    Web用セットアップ
+    //Web setup
     options: const FirebaseOptions(
       apiKey: 'AIzaSyB34IqDrVeynPFGjo1F68f_eCb48sTLt70',
       appId: '1:208019141585:web:709c384e998d9a798a26f0',
@@ -31,6 +31,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'smi',
       home: _CheckLogin(),
+      theme: ThemeData(
+        appBarTheme: const AppBarTheme(
+          color: Color(0xFF0073a8),
+          centerTitle: false,
+          iconTheme: IconThemeData(color: Colors.white),
+          elevation: 0
+        ),
+        primaryColor: const Color(0xFF0073a8)
+      ),
     );
   }
 }

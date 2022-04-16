@@ -41,7 +41,12 @@ class _CommunityListPage extends State<CommunityList> {
                     children: snapshot.data!.map((document) {
                       return Card(
                         child: ListTile(
-                          title: Text(document["name"]),
+                          title: Text(
+                            document["name"],
+                            style: const TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
                           onTap: () {
                             Navigator.push(
                                 context,
