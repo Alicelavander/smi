@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:smi/community/identitydetail.dart';
 
 import '../community/communityhome.dart';
 
@@ -38,32 +39,41 @@ class _FeedPage extends State<Feed> {
                   if (snapshot.hasData) {
                     if (snapshot.data!.where((document) =>
                     document.docs.isNotEmpty).isNotEmpty) {
-                      return ListView(
-                        children: snapshot.data!.where((document) =>
-                        document.docs.isNotEmpty).map((document) {
-                          return Card(
-                            child: ListTile(
-                              title: Text(document.docs.first["experience"]),
-                              onTap: () {
-                                Navigator.push(
+                      List<Card> cards = [];
+                      for (var element in snapshot.data!) {
+                        for(var document in element.docs){
+                          cards.add(
+                            Card(
+                              child: ListTile(
+                                title: Text(
+                                  document["experience"],
+                                  style: const TextStyle(
+                                    fontSize: 20,
+                                  ),
+                                ),
+                                onTap: () {
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) =>
-                                          CommunityHome(
-                                              communityId: document.docs.first["community"]),
+                                      builder: (context) => IdentityDetail(
+                                        communityId: document["community"], identityId: document["experience"]
+                                      ),
                                     )
-                                );
-                              },
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            elevation: 10,
-                            margin: const EdgeInsets.fromLTRB(
-                                10.0, 5.0, 10.0, 5.0),
+                                  );
+                                },
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 10,
+                              margin: const EdgeInsets.fromLTRB(
+                                10.0, 5.0, 10.0, 5.0
+                              ),
+                            )
                           );
-                        }).toList(),
-                      );
+                        }
+                      }
+                      return ListView(children: cards);
                     } else {
                       return const Center(
                         child: Text('No experiences shared yet!',
