@@ -85,7 +85,7 @@ class _IdentityDetailPage extends State<IdentityDetail> {
                     child: Padding(
                       padding: const EdgeInsets.all(15),
                       child: Text(
-                        "Posted by: ${snapshot.data}",
+                        "Identity posted by: ${snapshot.data}",
                         style: const TextStyle(
                           fontSize: 20,
                         ),
@@ -93,7 +93,10 @@ class _IdentityDetailPage extends State<IdentityDetail> {
                     )
                   );
                 }),
-            const Padding(padding: EdgeInsets.all(20)),
+            const Padding(
+              padding: EdgeInsets.all(20),
+              child: Text('experiences shared:'),
+            ),
             Expanded(
               child: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
                 future: getPostsData(),
@@ -112,12 +115,6 @@ class _IdentityDetailPage extends State<IdentityDetail> {
                                   document['experience'],
                                   style: const TextStyle(
                                     fontSize: 20,
-                                  ),
-                                ),
-                                Text(
-                                  'written by someone',
-                                  style: const TextStyle(
-                                    fontSize: 16,
                                   ),
                                 ),
                               ],

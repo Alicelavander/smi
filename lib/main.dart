@@ -7,18 +7,16 @@ import 'home/home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-      /*
-    //Web setup
-    options: const FirebaseOptions(
-      apiKey: 'AIzaSyB34IqDrVeynPFGjo1F68f_eCb48sTLt70',
-      appId: '1:208019141585:web:709c384e998d9a798a26f0',
-      messagingSenderId: '208019141585',
-      projectId: 'smi-technovation',
-      authDomain: 'smi-technovation.firebaseapp.com',
-      storageBucket: 'smi-technovation.appspot.com',
-      measurementId: 'G-GCRQVRZ9BX',
-    ),
-     */
+        //Web setup
+        options: const FirebaseOptions(
+          apiKey: 'AIzaSyB34IqDrVeynPFGjo1F68f_eCb48sTLt70',
+          appId: '1:208019141585:web:709c384e998d9a798a26f0',
+          messagingSenderId: '208019141585',
+          projectId: 'smi-technovation',
+          authDomain: 'smi-technovation.firebaseapp.com',
+          storageBucket: 'smi-technovation.appspot.com',
+          measurementId: 'G-GCRQVRZ9BX',
+        ),
       );
   runApp(const MyApp());
 }

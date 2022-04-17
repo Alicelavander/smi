@@ -36,40 +36,41 @@ class _CommunityListPage extends State<CommunityList> {
             child: FutureBuilder<List<DocumentSnapshot<Map<String, dynamic>>>>(
               future: getListData(),
               builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView(
-                    children: snapshot.data!.map((document) {
-                      return Card(
-                        child: ListTile(
-                          title: Text(
-                            document["name"],
-                            style: const TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      CommunityHome(communityId: document.id),
-                                ));
-                          },
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 10,
-                        margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
-                      );
-                    }).toList(),
-                  );
-                } else {
-                  const Center(
+                if (!snapshot.hasData){
+                  return const Center(
                     child: Text('Start by joining or creating a community.',
                         style: TextStyle(fontSize: 16)),
                   );
                 }
+
+                return ListView(
+                  children: snapshot.data!.map((document) {
+                    return Card(
+                      child: ListTile(
+                        title: Text(
+                          document["name"],
+                          style: const TextStyle(
+                            fontSize: 20,
+                          ),
+                        ),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    CommunityHome(communityId: document.id),
+                              ));
+                        },
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 10,
+                      margin: const EdgeInsets.fromLTRB(10.0, 5.0, 10.0, 5.0),
+                    );
+                  }).toList(),
+                );
+
                 // データが読込中の場合
                 return const Center(
                   child: Text('Loading...'),

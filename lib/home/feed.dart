@@ -1,3 +1,5 @@
+import 'dart:html';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +29,11 @@ class _FeedPage extends State<Feed> {
     }));
   }
 
+  Future<String> communityName(String communityId) async {
+    var snapshot = await db.collection('communities').doc(communityId).get();
+    return 'from ${snapshot['name']}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,60 +43,71 @@ class _FeedPage extends State<Feed> {
               child: FutureBuilder<List<QuerySnapshot<Map<String, dynamic>>>>(
                 future: getPostsData(),
                 builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    if (snapshot.data!.where((document) =>
-                    document.docs.isNotEmpty).isNotEmpty) {
-                      List<Card> cards = [];
-                      for (var element in snapshot.data!) {
-                        for(var document in element.docs){
-                          cards.add(
-                            Card(
-                              child: ListTile(
-                                title: Text(
-                                  document["experience"],
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => IdentityDetail(
-                                        communityId: document["community"], identityId: document["experience"]
-                                      ),
-                                    )
-                                  );
-                                },
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              elevation: 10,
-                              margin: const EdgeInsets.fromLTRB(
-                                10.0, 5.0, 10.0, 5.0
-                              ),
-                            )
-                          );
-                        }
-                      }
-                      return ListView(children: cards);
-                    } else {
-                      return const Center(
-                        child: Text('No experiences shared yet!',
-                            style: TextStyle(fontSize: 16)),
-                      );
-                    }
-                  } else {
-                    const Center(
-                      child: Text('Start by joining or creating a community.',
+                  if(!snapshot.hasData){
+                    // データが読込中の場合
+                    return const Center(
+                      child: Text('Loading...'),
+                    );
+                  }
+
+                  if (snapshot.data!.where((document) =>
+                  document.docs.isNotEmpty).isEmpty) {
+                    return const Center(
+                      child: Text('No experiences shared yet!',
                           style: TextStyle(fontSize: 16)),
                     );
                   }
-                  // データが読込中の場合
-                  return const Center(
-                    child: Text('Loading...'),
-                  );
+
+                  List<Card> cards = [];
+                  for (var element in snapshot.data!) {
+                    for(var document in element.docs){
+                      cards.add(
+                          Card(
+                            child: InkWell(
+                              child: Container(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        document['experience'],
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                        ),
+                                      ),
+                                      Text(
+                                        'from ${document['community']}',
+                                        style: const TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  padding: const EdgeInsets.all(10)
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => IdentityDetail(
+                                          communityId: document["community"], identityId: document["identity"]
+                                      ),
+                                    )
+                                );
+                              },
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 10,
+                            margin: const EdgeInsets.fromLTRB(
+                                10.0, 5.0, 10.0, 5.0
+                            ),
+                          )
+                      );
+                    }
+                  }
+                  return ListView(children: cards);
                 },
               ),
             )

@@ -118,13 +118,12 @@ class _LoginPage extends State<Login> {
               child: Text("or"),
             ),
 
-            //Googleでログインのボタン
+            //Login with Google button
             SignInButton(
               Buttons.Google,
               onPressed: () async {
                 try {
-                  /*
-                  //Web用セットアップ
+                  //Web setup
                   GoogleAuthProvider googleProvider = GoogleAuthProvider();
                   googleProvider.addScope('email');
                   googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
@@ -136,8 +135,8 @@ class _LoginPage extends State<Login> {
                       )
                   );
                   return;
-                   */
-                  //Android用セットアップ
+                  /*
+                  //Android setup
                   GoogleSignInAccount? googleUser =
                       await _googleSignIn.signIn();
                   GoogleSignInAuthentication googleAuth =
@@ -159,6 +158,7 @@ class _LoginPage extends State<Login> {
                       print(e);
                     }
                   }
+                  */
                 } catch (e) {
                   if (kDebugMode) {
                     print(e.toString());
