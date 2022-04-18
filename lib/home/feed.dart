@@ -76,7 +76,7 @@ class _FeedPage extends State<Feed> {
                                         ),
                                       ),
                                       Text(
-                                        'from ${document['community']}',
+                                        'from ${document['communityName']}',
                                         style: const TextStyle(
                                           fontSize: 16,
                                         ),

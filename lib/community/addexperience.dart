@@ -23,28 +23,24 @@ class _AddExperiencePage extends State<AddExperience> {
   bool _postAnonymous = true;
 
   Future<void> addExperience() async {
-    CollectionReference collection = db
-        .collection('communities')
-        .doc(widget.communityId)
-        .collection('identities');
-    Query query = collection.where("name", isEqualTo: widget.identityId);
     User? user = FirebaseAuth.instance.currentUser;
 
-    var result = await query.get();
+    var community = await db.collection('communities').doc(widget.communityId).get();
     db.collection('posts').add({
       'experience': experience,
       'community': widget.communityId,
       'identity': widget.identityId,
+      'communityName': community['name'],
     }).then((newDocument) => {
           if (_postAnonymous)
             {
-              collection.doc(newDocument.id).collection('population').add({
-                'author': 'Anonymous',
+              newDocument.update({
+                'author': 'Anonymous'
               })
             }
           else
             {
-              collection.doc(newDocument.id).collection('population').add({
+              newDocument.update({
                 'author': user?.displayName,
               })
             }

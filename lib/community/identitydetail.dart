@@ -117,6 +117,12 @@ class _IdentityDetailPage extends State<IdentityDetail> {
                                     fontSize: 20,
                                   ),
                                 ),
+                                Text(
+                                  'By ${document['author']}',
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
