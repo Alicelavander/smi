@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../community/communityhome.dart';
-import '../login.dart';
 
 class JoinCommunity extends StatefulWidget {
   const JoinCommunity({Key? key}) : super(key: key);

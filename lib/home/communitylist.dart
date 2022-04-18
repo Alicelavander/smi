@@ -3,8 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:smi/newcommunity/joincommunity.dart';
-import '../newcommunity/createcommunity.dart';
+
 import '../community/communityhome.dart';
+import '../newcommunity/createcommunity.dart';
 
 class CommunityList extends StatefulWidget {
   const CommunityList({Key? key}) : super(key: key);
@@ -36,7 +37,7 @@ class _CommunityListPage extends State<CommunityList> {
             child: FutureBuilder<List<DocumentSnapshot<Map<String, dynamic>>>>(
               future: getListData(),
               builder: (context, snapshot) {
-                if (!snapshot.hasData){
+                if (!snapshot.hasData) {
                   return const Center(
                     child: Text('Start by joining or creating a community.',
                         style: TextStyle(fontSize: 16)),

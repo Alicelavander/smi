@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:smi/community/communityhome.dart';
 import 'package:smi/community/identitydetail.dart';
 
 class AddExperience extends StatefulWidget {
@@ -25,7 +24,8 @@ class _AddExperiencePage extends State<AddExperience> {
   Future<void> addExperience() async {
     User? user = FirebaseAuth.instance.currentUser;
 
-    var community = await db.collection('communities').doc(widget.communityId).get();
+    var community =
+        await db.collection('communities').doc(widget.communityId).get();
     db.collection('posts').add({
       'experience': experience,
       'community': widget.communityId,
@@ -34,9 +34,7 @@ class _AddExperiencePage extends State<AddExperience> {
     }).then((newDocument) => {
           if (_postAnonymous)
             {
-              newDocument.update({
-                'author': 'Anonymous'
-              })
+              newDocument.update({'author': 'Anonymous'})
             }
           else
             {
@@ -49,7 +47,8 @@ class _AddExperiencePage extends State<AddExperience> {
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => IdentityDetail(communityId: widget.communityId, identityId: widget.identityId),
+          builder: (context) => IdentityDetail(
+              communityId: widget.communityId, identityId: widget.identityId),
         ));
   }
 
@@ -81,10 +80,8 @@ class _AddExperiencePage extends State<AddExperience> {
                         style: const TextStyle(
                           fontSize: 25,
                         ),
-                      )
-                  );
-                }
-            ),
+                      ));
+                }),
             Padding(
               padding: const EdgeInsets.fromLTRB(25.0, 0, 25.0, 10.0),
               child: TextField(

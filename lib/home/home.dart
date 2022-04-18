@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
 import '../login.dart';
 import 'communitylist.dart';
 import 'feed.dart';
@@ -74,9 +75,7 @@ class _Home extends State<Home> {
             icon: Icon(Icons.feed),
             label: 'feed',
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.groups),
-            label: 'groups'),
+          BottomNavigationBarItem(icon: Icon(Icons.groups), label: 'groups'),
         ],
         currentIndex: _currentIndex,
         fixedColor: const Color(0xFF0073a8),

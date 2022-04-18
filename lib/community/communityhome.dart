@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:smi/community/identitydetail.dart';
 import 'package:smi/home/home.dart';
+
 import 'addidentity.dart';
 
 class CommunityHome extends StatefulWidget {
@@ -70,47 +71,48 @@ class _CommunityHomePage extends State<CommunityHome> {
                   if (snapshot.data!.docs.isNotEmpty) {
                     return SingleChildScrollView(
                       child: GridView.count(
-                        crossAxisCount: 3,
-                        shrinkWrap: true,
-                        children: snapshot.data!.docs
-                          .map((document) => Card(
-                        child: InkWell(
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  document['name'],
-                                  style: const TextStyle(
-                                    fontSize: 20,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      IdentityDetail(
-                                          communityId:
-                                          widget.communityId,
-                                          identityId: document.id),
-                                ));
-                          },
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        elevation: 10,
-                        margin: const EdgeInsets.fromLTRB(
-                            10.0, 5.0, 10.0, 5.0),
-                      ))
-                          .toList()
-                      ),
+                          crossAxisCount: 3,
+                          shrinkWrap: true,
+                          children: snapshot.data!.docs
+                              .map((document) => Card(
+                                    child: InkWell(
+                                      child: Container(
+                                        padding: const EdgeInsets.all(10),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              document['name'],
+                                              style: const TextStyle(
+                                                fontSize: 20,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  IdentityDetail(
+                                                      communityId:
+                                                          widget.communityId,
+                                                      identityId: document.id),
+                                            ));
+                                      },
+                                    ),
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(12),
+                                    ),
+                                    elevation: 10,
+                                    margin: const EdgeInsets.fromLTRB(
+                                        10.0, 5.0, 10.0, 5.0),
+                                  ))
+                              .toList()),
                     );
                   } else {
                     return const Center(

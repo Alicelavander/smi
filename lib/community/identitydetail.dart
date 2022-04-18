@@ -40,7 +40,7 @@ class _IdentityDetailPage extends State<IdentityDetail> {
     names = names.substring(1, names.length - 1);
     if (names.isEmpty) {
       return "$anonymous anonymous people";
-    } else if (anonymous == 0){
+    } else if (anonymous == 0) {
       return names;
     } else {
       return "$names, and $anonymous anonymous people";
@@ -58,7 +58,8 @@ class _IdentityDetailPage extends State<IdentityDetail> {
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getPostsData() async {
-    return await db.collection('posts')
+    return await db
+        .collection('posts')
         .where("community", isEqualTo: widget.communityId)
         .where("identity", isEqualTo: widget.identityId)
         .get();
@@ -69,11 +70,10 @@ class _IdentityDetailPage extends State<IdentityDetail> {
     return Scaffold(
         appBar: AppBar(
           title: FutureBuilder<String>(
-            future: getCommunityInfo('name'),
-            builder: (context, snapshot) {
-              return Text("${snapshot.data}");
-            }
-          ),
+              future: getCommunityInfo('name'),
+              builder: (context, snapshot) {
+                return Text("${snapshot.data}");
+              }),
         ),
         body: Column(
           mainAxisSize: MainAxisSize.min,
@@ -82,16 +82,15 @@ class _IdentityDetailPage extends State<IdentityDetail> {
                 future: userNameList(),
                 builder: (context, snapshot) {
                   return Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Text(
-                        "Identity posted by: ${snapshot.data}",
-                        style: const TextStyle(
-                          fontSize: 20,
-                        ),
+                      child: Padding(
+                    padding: const EdgeInsets.all(15),
+                    child: Text(
+                      "Identity posted by: ${snapshot.data}",
+                      style: const TextStyle(
+                        fontSize: 20,
                       ),
-                    )
-                  );
+                    ),
+                  ));
                 }),
             const Padding(
               padding: EdgeInsets.all(20),
@@ -105,35 +104,33 @@ class _IdentityDetailPage extends State<IdentityDetail> {
                     return ListView(
                       children: snapshot.data!.docs.map((document) {
                         return Card(
-                          child: Container(
-                            padding: const EdgeInsets.all(10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  document['experience'],
-                                  style: const TextStyle(
-                                    fontSize: 20,
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    document['experience'],
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  'By ${document['author']}',
-                                  style: const TextStyle(
-                                    fontSize: 16,
+                                  Text(
+                                    'By ${document['author']}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          elevation: 10,
-                          margin: const EdgeInsets.fromLTRB(
-                            10.0, 5.0, 10.0, 5.0
-                          )
-                        );
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            elevation: 10,
+                            margin: const EdgeInsets.fromLTRB(
+                                10.0, 5.0, 10.0, 5.0));
                       }).toList(),
                     );
                   } else {

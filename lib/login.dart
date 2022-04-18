@@ -1,12 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'signup.dart';
+
 import 'home/home.dart';
+import 'signup.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -103,8 +104,8 @@ class _LoginPage extends State<Login> {
                   }
                 },
                 child: const Text(
-                'Login',
-                style: TextStyle(
+                  'Login',
+                  style: TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.white),
                 ),
                 style: ElevatedButton.styleFrom(
@@ -126,14 +127,14 @@ class _LoginPage extends State<Login> {
                   //Web setup
                   GoogleAuthProvider googleProvider = GoogleAuthProvider();
                   googleProvider.addScope('email');
-                  googleProvider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+                  googleProvider.addScope(
+                      'https://www.googleapis.com/auth/contacts.readonly');
                   await FirebaseAuth.instance.signInWithPopup(googleProvider);
                   Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (context) => const Home(pageIndex: 0),
-                      )
-                  );
+                      ));
                   return;
                   /*
                   //Android setup
@@ -195,8 +196,8 @@ class _LoginPage extends State<Login> {
               },
               child: const Text(
                 'Create a new account',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0073a8)),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Color(0xFF0073a8)),
               ),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue[50], //ボタンの背景色

@@ -1,6 +1,7 @@
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'home/home.dart';
 import 'login.dart';
 
@@ -138,8 +139,8 @@ class _SignupState extends State<Signup> {
               },
               child: const Text(
                 'Login',
-                style:
-                    TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0073a8)),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Color(0xFF0073a8)),
               ),
               style: ElevatedButton.styleFrom(
                 primary: Colors.blue[50], //ボタンの背景色

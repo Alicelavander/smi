@@ -1,10 +1,10 @@
+import 'dart:math';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:smi/community/communityhome.dart';
-import '../login.dart';
-import 'dart:math';
 
 class CreateCommunity extends StatefulWidget {
   const CreateCommunity({Key? key}) : super(key: key);
