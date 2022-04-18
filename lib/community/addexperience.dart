@@ -26,23 +26,19 @@ class _AddExperiencePage extends State<AddExperience> {
 
     var community =
         await db.collection('communities').doc(widget.communityId).get();
+    String? author = "";
+    if (_postAnonymous) {
+      author = "Anonymous";
+    } else {
+      author = user?.displayName;
+    }
     db.collection('posts').add({
       'experience': experience,
       'community': widget.communityId,
       'identity': widget.identityId,
       'communityName': community['name'],
-    }).then((newDocument) => {
-          if (_postAnonymous)
-            {
-              newDocument.update({'author': 'Anonymous'})
-            }
-          else
-            {
-              newDocument.update({
-                'author': user?.displayName,
-              })
-            }
-        });
+      'author': author
+    });
 
     Navigator.push(
         context,
