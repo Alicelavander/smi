@@ -124,6 +124,7 @@ class _LoginPage extends State<Login> {
               Buttons.Google,
               onPressed: () async {
                 try {
+                  /*
                   //Web setup
                   GoogleAuthProvider googleProvider = GoogleAuthProvider();
                   googleProvider.addScope('email');
@@ -136,7 +137,7 @@ class _LoginPage extends State<Login> {
                         builder: (context) => const Home(pageIndex: 0),
                       ));
                   return;
-                  /*
+                   */
                   //Android setup
                   GoogleSignInAccount? googleUser =
                       await _googleSignIn.signIn();
@@ -159,7 +160,6 @@ class _LoginPage extends State<Login> {
                       print(e);
                     }
                   }
-                  */
                 } catch (e) {
                   if (kDebugMode) {
                     print(e.toString());

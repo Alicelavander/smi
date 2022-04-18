@@ -8,6 +8,7 @@ import 'home/home.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+    /*
     //Web setup
     options: const FirebaseOptions(
       apiKey: 'AIzaSyB34IqDrVeynPFGjo1F68f_eCb48sTLt70',
@@ -18,6 +19,7 @@ void main() async {
       storageBucket: 'smi-technovation.appspot.com',
       measurementId: 'G-GCRQVRZ9BX',
     ),
+    */
   );
   runApp(const MyApp());
 }
